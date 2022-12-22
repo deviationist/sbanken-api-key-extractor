@@ -1,7 +1,12 @@
 import playwright from 'playwright';
 import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async';
+import { rmSync } from 'fs';
 import * as dotenv from 'dotenv';
 dotenv.config();
+
+const takeScreenshots = false;
+const filePath = process.cwd() + '/screenshots';
+rmSync(filePath, { recursive: true, force: true });
 
 const browser = await playwright.chromium.launch();
 const context = await browser.newContext({
@@ -9,13 +14,15 @@ const context = await browser.newContext({
 });
 const page = await context.newPage();
 
-let count = 0;
-const screenshotInterval = setIntervalAsync(async () => {
-    await page.screenshot({ path: `screenshots/${count}.png` });
-    count++;
-}, 500);
+if (takeScreenshots) {
+    let count = 0;
+    const screenshotInterval = setIntervalAsync(async () => {
+        await page.screenshot({ path: `screenshots/${count}.png` });
+        count++;
+    }, 500);
+}
 
-await page.goto(process.env.START_URL);
+await page.goto('https://secure.sbanken.no/Authentication');
 await page.click('.list.list--description > *:nth-child(2)'); // Click "BankID"
 
 // Fill social security number and submit
@@ -35,7 +42,18 @@ await frame.getByRole('button', { name: 'Neste' }).click();
 
 // Wait until we're logged in
 await page.waitForSelector('a.c-header-button[href="/Home/Logout"]');
-clearIntervalAsync(screenshotInterval);
-await page.screenshot({ path: `screenshots/final.png` });
+
+// Create new API secret/password
+await page.goto('https://secure.sbanken.no/Personal/ApiBeta/Info');
+await page.click('input[type="submit"][value="Bestill nytt passord"]');
+await page.waitForSelector('#newApiBetaUserPassword');
+const apiSecret = (await page.locator('#newApiBetaUserPassword').textContent()).trim();
+
+if (takeScreenshots) {
+    clearIntervalAsync(screenshotInterval);
+    await page.screenshot({ path: `screenshots/final.png` });
+}
 
 await browser.close();
+
+console.log('API secret:', apiSecret);
