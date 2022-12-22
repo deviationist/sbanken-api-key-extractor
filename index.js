@@ -19,7 +19,7 @@ await page.goto(process.env.START_URL);
 await page.click('.list.list--description > *:nth-child(2)'); // Click "BankID"
 
 // Fill social security number and submit
-await page.type('input[name="Ssn.Value"]', process.env.SSN);
+await page.type('input[name="Ssn.Value"]', process.env.SOCIAL_SECURITY_NUMBER);
 await page.click('input[type="submit"]');
 
 // Wait for BankID-frame to appear
