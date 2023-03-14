@@ -11,5 +11,8 @@ Please read through the code as blindly trusting this code would be stupid! It w
 5. Open your BankID app to accept login
 6. Inspect your glorious API secret which you can use for your projects!
 
+## Debugging
+To debug the process set the variable `takeScreenshots` to true in the file `index.js`. Screenshots will be output to the screenshots-folder.
+
 ## The why?
 Idk, I wanted to see if it was possible to do a programmatic login that would handle BankID. I also wanted an automattic renewal of my Sbanken API tokens since I'm lazy...

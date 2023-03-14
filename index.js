@@ -4,7 +4,7 @@ import { rmSync } from 'fs';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const takeScreenshots = true;
+const takeScreenshots = false;
 let screenshotInterval;
 const filePath = process.cwd() + '/screenshots';
 rmSync(filePath, { recursive: true, force: true });
