@@ -4,7 +4,8 @@ import { rmSync } from 'fs';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const takeScreenshots = false;
+const takeScreenshots = true;
+let screenshotInterval;
 const filePath = process.cwd() + '/screenshots';
 rmSync(filePath, { recursive: true, force: true });
 
@@ -16,7 +17,7 @@ const page = await context.newPage();
 
 if (takeScreenshots) {
     let count = 0;
-    const screenshotInterval = setIntervalAsync(async () => {
+    screenshotInterval = setIntervalAsync(async () => {
         await page.screenshot({ path: `screenshots/${count}.png` });
         count++;
     }, 500);
@@ -36,7 +37,7 @@ await page.waitForSelector('iframe[title="BankID"]');
 const frame = page.frameLocator('[title="BankID"]');
 
 // Input password and submit
-const passwordField = frame.getByLabel('Personlig passord');
+const passwordField = frame.getByLabel('Ditt BankID-passord');
 await passwordField.fill(process.env.BANKID_PASSWORD);
 await frame.getByRole('button', { name: 'Neste' }).click();
 
