@@ -1,11 +1,17 @@
 {
+  "name": "sbanken-api-key-extractor",
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "./src/index.js",
   "type": "module",
   "dependencies": {
     "dotenv": "^16.0.3",
-    "playwright": "^1.29.1",
-    "set-interval-async": "^3.0.2"
+    "playwright": "^1.29.1"
   },
   "scripts": {
-    "start": "node index.js"
+    "create": "node src/index.js create",
+    "clear-all": "node src/index.js clear-all",
+    "validate": "node src/index.js validate"
   }
 }
