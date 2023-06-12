@@ -3,6 +3,8 @@ This script obtains/deletes/validates Sbanken API key using a headaless programm
 
 Please read through the code as blindly trusting it would be stupid! It will log into your Sbanken account and you should ensure that there is not funny business being done!
 
+Note that this code will log in with "BankID with app", so "BankID on mobile" is not yet implemented. Feel free to make a PR!
+
 ## Setup
 1. Ensure that you've [enrolled in the Beta-program](https://secure.sbanken.no/Home/Settings/BetaProgram) to access the API service.
 2. Ensure that you've [installed the browser binaries](https://playwright.dev/docs/browsers#managing-browser-binaries).
